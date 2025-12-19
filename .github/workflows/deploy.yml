@@ -10,21 +10,17 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      # Step 1: Checkout repository
       - name: Checkout repository
         uses: actions/checkout@v3
 
-      # Step 2: Setup Node.js
       - name: Setup Node.js
         uses: actions/setup-node@v3
         with:
           node-version: '22'
 
-      # Step 3: Install dependencies
       - name: Install dependencies
         run: npm ci
 
-      # Step 4: Build Angular Browser App
       - name: Build Angular Browser App
         run: |
           npx ng build pharma-talewind \
@@ -32,11 +28,9 @@ jobs:
             --output-path=dist/pharma-talewind/browser \
             --base-href="https://SwathiSherigar.github.io/Pharmacy_billing_angular/"
 
-      # Step 5: Verify dist folder
       - name: Verify dist folder
         run: ls -R dist/pharma-talewind/browser
 
-      # Step 6: Create 404.html for SPA
       - name: Create 404.html for SPA
         run: |
           if [ -f dist/pharma-talewind/browser/browser/index.html ]; then
@@ -48,11 +42,10 @@ jobs:
             exit 1
           fi
 
-      # Step 7: Deploy to GitHub Pages
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v4
         with:
-          github_token: ${{ secrets.GH_PAT }}   # Must match your secret name
+          personal_token: ${{ secrets.GH_PAT }}   # <--- Use personal_token
           publish_dir: dist/pharma-talewind/browser/browser
           publish_branch: gh-pages
           keep_files: true
