@@ -22,13 +22,24 @@ jobs:
         run: npm ci
 
       - name: Build Angular Browser App
-        run: npx ng build pharma-talewind --configuration production --output-path=dist/pharma-talewind/browser --base-href="https://SwathiSherigar.github.io/Pharmacy_billing_angular/"
+        run: |
+          npx ng build pharma-talewind \
+            --configuration production \
+            --output-path=dist/pharma-talewind/browser \
+            --base-href="https://SwathiSherigar.github.io/Pharmacy_billing_angular/"
 
       - name: Verify dist folder
         run: ls -R dist/pharma-talewind/browser
 
       - name: Create 404.html for SPA
-        run: cp dist/pharma-talewind/browser/index.html dist/pharma-talewind/browser/404.html
+        run: |
+          if [ -f dist/pharma-talewind/browser/index.html ]; then
+            cp dist/pharma-talewind/browser/index.html dist/pharma-talewind/browser/404.html
+          else
+            echo "❌ index.html not found! Check the build output."
+            ls -R dist/pharma-talewind/browser
+            exit 1
+          fi
 
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v4
