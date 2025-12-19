@@ -22,30 +22,24 @@ jobs:
         run: npm ci
 
       - name: Build Angular Browser App
-        run: |
-          npx ng build pharma-talewind \
-            --configuration production \
-            --output-path=dist/pharma-talewind/browser \
-            --base-href="https://SwathiSherigar.github.io/Pharmacy_billing_angular/"
+        run: npx ng build --configuration production
 
-      - name: Verify dist folder
-        run: ls -R dist/pharma-talewind/browser
+      - name: List dist folder contents
+        run: ls -R dist
 
-      - name: Create 404.html for SPA
+      - name: Create 404 fallback
         run: |
-          if [ -f dist/pharma-talewind/browser/browser/index.html ]; then
-            cp dist/pharma-talewind/browser/browser/index.html dist/pharma-talewind/browser/browser/404.html
-            echo "✅ 404.html created successfully"
+          if [ -f dist/pharma-talewind/browser/index.html ]; then
+            cp dist/pharma-talewind/browser/index.html dist/pharma-talewind/browser/404.html
           else
-            echo "❌ index.html not found! Check the build output."
-            ls -R dist/pharma-talewind/browser
+            echo "index.html not found!"
             exit 1
+          fi
 
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v4
         with:
-          personal_token: ${{ secrets.GH_PAT }}
-          publish_dir: dist/pharma-talewind/browser/browser
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: dist/pharma-talewind/browser
           publish_branch: gh-pages
           keep_files: true
-          force_orphan: true
