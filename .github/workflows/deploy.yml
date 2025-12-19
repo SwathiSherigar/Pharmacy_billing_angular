@@ -3,7 +3,7 @@ name: Angular Auto Deploy to GitHub Pages
 on:
   push:
     branches:
-      - dev  # Deploy when pushing to dev
+      - dev
 
 jobs:
   build-and-deploy:
@@ -21,18 +21,25 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
-      - name: Build Angular Browser app
-        run: |
-          npx ng build --configuration production --output-path=dist/browser \
-            --base-href="https://SwathiSherigar.github.io/Pharmacy_billing_angular/"
+      - name: Build Angular Browser App
+        run: npx ng build --configuration production
+
+      - name: List dist folder contents
+        run: ls -R dist
 
       - name: Create 404 fallback
-        run: cp dist/browser/index.html dist/browser/404.html
+        run: |
+          if [ -f dist/pharma-talewind/index.html ]; then
+            cp dist/pharma-talewind/index.html dist/pharma-talewind/404.html
+          else
+            echo "index.html not found!"
+            exit 1
+          fi
 
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v4
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: dist/browser
+          publish_dir: dist/pharma-talewind
           publish_branch: gh-pages
           keep_files: true
