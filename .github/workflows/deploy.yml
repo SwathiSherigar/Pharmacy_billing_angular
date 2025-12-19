@@ -33,8 +33,8 @@ jobs:
 
       - name: Create 404.html for SPA
         run: |
-          if [ -f dist/pharma-talewind/browser/index.html ]; then
-            cp dist/pharma-talewind/browser/index.html dist/pharma-talewind/browser/404.html
+          if [ -f dist/pharma-talewind/browser/browser/index.html ]; then
+            cp dist/pharma-talewind/browser/browser/index.html dist/pharma-talewind/browser/browser/404.html
             echo "✅ 404.html created successfully"
           else
             echo "❌ index.html not found! Check the build output."
@@ -46,6 +46,6 @@ jobs:
         uses: peaceiris/actions-gh-pages@v4
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: dist/pharma-talewind/browser
+          publish_dir: dist/pharma-talewind/browser/browser
           publish_branch: gh-pages
           keep_files: true
