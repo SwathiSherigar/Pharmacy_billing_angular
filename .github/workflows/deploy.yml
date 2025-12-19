@@ -35,6 +35,7 @@ jobs:
         run: |
           if [ -f dist/pharma-talewind/browser/index.html ]; then
             cp dist/pharma-talewind/browser/index.html dist/pharma-talewind/browser/404.html
+            echo "✅ 404.html created successfully"
           else
             echo "❌ index.html not found! Check the build output."
             ls -R dist/pharma-talewind/browser
