@@ -40,14 +40,12 @@ jobs:
             echo "❌ index.html not found! Check the build output."
             ls -R dist/pharma-talewind/browser
             exit 1
-          fi
 
       - name: Deploy to GitHub Pages
-  uses: peaceiris/actions-gh-pages@v4
-  with:
-    personal_token: ${{ secrets.GH_PAT }}   # <-- must use personal_token
-    publish_dir: dist/pharma-talewind/browser/browser
-    publish_branch: gh-pages
-    keep_files: true
-    force_orphan: true
-
+        uses: peaceiris/actions-gh-pages@v4
+        with:
+          personal_token: ${{ secrets.GH_PAT }}
+          publish_dir: dist/pharma-talewind/browser/browser
+          publish_branch: gh-pages
+          keep_files: true
+          force_orphan: true
