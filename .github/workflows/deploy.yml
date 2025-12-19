@@ -52,7 +52,8 @@ jobs:
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v4
         with:
-          github_token: ${{ secrets.GH_PAT }}   # Use your PAT secret here
+          github_token: ${{ secrets.GH_PAT }}   # Must match your secret name
           publish_dir: dist/pharma-talewind/browser/browser
           publish_branch: gh-pages
           keep_files: true
+          force_orphan: true
