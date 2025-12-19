@@ -3,7 +3,7 @@ name: Angular Auto Deploy to GitHub Pages
 on:
   push:
     branches:
-      - dev  # Trigger on dev branch push
+      - dev
 
 jobs:
   build-and-deploy:
@@ -22,10 +22,10 @@ jobs:
         run: npm ci
 
       - name: Build Angular Browser App
-        run: npx ng build --configuration production
+        run: npx ng build pharma-talewind --configuration production --output-path=dist/pharma-talewind/browser --base-href="https://SwathiSherigar.github.io/Pharmacy_billing_angular/"
 
-      - name: List dist folder contents
-        run: ls -R dist/pharma-talewind
+      - name: Verify dist folder
+        run: ls -R dist/pharma-talewind/browser
 
       - name: Create 404.html for SPA
         run: cp dist/pharma-talewind/browser/index.html dist/pharma-talewind/browser/404.html
