@@ -1,18 +1,19 @@
-name: Angular GitHub Pages Deploy
+name: Angular Auto Deploy to GitHub Pages
 
 on:
   push:
     branches:
-      - dev  # trigger deploy on dev branch
+      - dev
 
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v3
+      - name: Checkout repository
+        uses: actions/checkout@v3
 
-      - name: Setup Node.js
+      - name: Use Node.js
         uses: actions/setup-node@v3
         with:
           node-version: '22'
@@ -20,15 +21,16 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
-      - name: Build Angular App (Browser)
+      - name: Build Angular Browser App
         run: npx ng build --configuration production --output-path=dist/browser --base-href="https://SwathiSherigar.github.io/Pharmacy_billing_angular/"
 
-      - name: Create 404.html for SPA routing
+      - name: Ensure 404.html exists
         run: cp dist/browser/index.html dist/browser/404.html
 
-      - name: Deploy to GitHub Pages
+      - name: Deploy to gh-pages
         uses: peaceiris/actions-gh-pages@v6
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./dist/browser
+          publish_dir: dist/browser
           publish_branch: gh-pages
+          keep_files: true
