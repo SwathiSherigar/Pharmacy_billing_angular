@@ -3,7 +3,7 @@ name: Angular GitHub Pages Deploy
 on:
   push:
     branches:
-      - dev  # This triggers on push to dev branch
+      - dev  # triggers deployment on push to dev branch
 
 jobs:
   build-and-deploy:
@@ -16,14 +16,18 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: '20'  # Match your Node version
+          node-version: '22'  # match your local version
 
       - name: Install dependencies
         run: npm ci
 
-      - name: Build Angular App
+      - name: Build Angular App (Browser)
         run: |
-          npm run build -- --output-path=dist --base-href="https://SwathiSherigar.github.io/Pharmacy_billing_angular/"
+          # Build Angular app for browser only
+          npx ng build --configuration production --output-path=dist/browser --base-href="https://SwathiSherigar.github.io/Pharmacy_billing_angular/"
+
+      - name: Add 404.html for SPA routing
+        run: cp dist/browser/index.html dist/browser/404.html
 
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v6
