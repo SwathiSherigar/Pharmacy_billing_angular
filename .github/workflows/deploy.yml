@@ -3,7 +3,7 @@ name: Angular Auto Deploy to GitHub Pages
 on:
   push:
     branches:
-      - dev
+      - dev  # Trigger on dev branch push
 
 jobs:
   build-and-deploy:
@@ -25,16 +25,10 @@ jobs:
         run: npx ng build --configuration production
 
       - name: List dist folder contents
-        run: ls -R dist
+        run: ls -R dist/pharma-talewind
 
-      - name: Create 404 fallback
-        run: |
-          if [ -f dist/pharma-talewind/browser/index.html ]; then
-            cp dist/pharma-talewind/browser/index.html dist/pharma-talewind/browser/404.html
-          else
-            echo "index.html not found!"
-            exit 1
-          fi
+      - name: Create 404.html for SPA
+        run: cp dist/pharma-talewind/browser/index.html dist/pharma-talewind/browser/404.html
 
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v4
