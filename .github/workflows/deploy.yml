@@ -30,7 +30,7 @@ jobs:
       - name: Create 404 fallback
         run: |
           if [ -f dist/pharma-talewind/browser/index.html ]; then
-            cp dist/pharma-talewind/index.html dist/pharma-talewind/404.html
+            cp dist/pharma-talewind/browser/index.html dist/pharma-talewind/browser/404.html
           else
             echo "index.html not found!"
             exit 1
@@ -40,6 +40,6 @@ jobs:
         uses: peaceiris/actions-gh-pages@v4
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: dist/pharma-talewind
+          publish_dir: dist/pharma-talewind/browser
           publish_branch: gh-pages
           keep_files: true
